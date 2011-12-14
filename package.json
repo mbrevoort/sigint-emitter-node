@@ -1,0 +1,29 @@
+{
+  "name": "sigint-emitter",
+  "description": "A client API for emitting measurements and counters into the SIGINT analytics system.",
+  "version": "0.0.1",
+  "author": "Chris Chew <chrisch@ecollege.com>",
+  "contributors": [
+    "Chris Chew <chrisch@ecollege.com>"
+  ],
+  "dependencies": {
+    "docco-husky": "latest"
+  },
+  "devDependencies": {
+    "nodeunit": "latest",
+    "nodemock": "0.2.x"
+  },
+  "keywords": [
+    "sigint",
+    "metrics",
+    "analytics",
+    "ecollege",
+    "pearson"
+  ],
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": ">= 0.4.8"
+  }
+}
