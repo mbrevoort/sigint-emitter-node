@@ -7,7 +7,9 @@
     "Chris Chew <chrisch@ecollege.com>"
   ],
   "dependencies": {
-    "docco-husky": "latest"
+    "docco-husky": "latest",
+    "amqp": "0.1.1",
+    "buffalo": "0.1.1"
   },
   "devDependencies": {
     "nodeunit": "latest",
@@ -25,5 +27,8 @@
   },
   "engines": {
     "node": ">= 0.4.8"
+  },
+  "docco_husky": {
+    "content_dir": "docs_src"
   }
 }
