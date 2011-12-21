@@ -7,18 +7,19 @@ var		testCase = require('nodeunit').testCase
 module.exports = {
 	"announce builds a proper message": function(test) {
 		var expected = {
+			v: 1,
 			s: {
 				n: "node1",
 				a: "app1"
 			},
 			w: "some date",
-			t: "announcement",
+			t: "a",
 			d: {
-				version: "1.2.3",
-				stack: [
-					{name: "node", version: "1"},
-					{name: "connect", version: "2"},
-					{name: "nodeunit", version: "1"}
+				v: "1.2.3",
+				s: [
+					{n: "node", v: "1"},
+					{n: "connect", v: "2"},
+					{n: "nodeunit", v: "1"}
 				]
 			}
 		};
@@ -43,12 +44,13 @@ module.exports = {
 
 	"count builds a proper message for once()": function(test) {
 		var expected = {
+			v: 1,
 			s: {
 				n: "node1",
 				a: "app1"
 			},
 			w: "some date",
-			t: "counter",
+			t: "c",
 			o: "operation1",
 			d: 1
 		};
@@ -68,12 +70,13 @@ module.exports = {
 
 	"count builds a proper message for times()": function(test) {
 		var expected = {
+			v: 1,
 			s: {
 				n: "node1",
 				a: "app1"
 			},
 			w: "some date",
-			t: "counter",
+			t: "c",
 			o: "operation1",
 			d: 14
 		};
@@ -94,12 +97,13 @@ module.exports = {
 
 	"time builds a proper message": function(test) {
 		var expected = {
+			v: 1,
 			s: {
 				n: "node1",
 				a: "app1"
 			},
 			w: "some date",
-			t: "timer",
+			t: "t",
 			o: "operation1",
 			d: 10,
 			g: "app2"
@@ -122,12 +126,13 @@ module.exports = {
 
 	"time builds a proper message with the start() semantics": function(test) {
 		var expected = {
+			v: 1,
 			s: {
 				n: "node1",
 				a: "app1"
 			},
 			w: "some date",
-			t: "timer",
+			t: "t",
 			o: "operation1",
 			d: 0,
 			g: "app2"

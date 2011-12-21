@@ -115,4 +115,10 @@ ChangeLog
 =========
 
 v0.0.1 - 12/21/2011 - Emission Spec v1
-* Initial cut
+	
+	* Initial cut
+
+v0.0.2 - 12/21/2011 - Emission Spec v1
+
+	* Documented BSON emission spec
+	* Added spec version to BSON
