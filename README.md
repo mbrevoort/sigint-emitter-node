@@ -105,7 +105,7 @@ An announcement should be emitted whenever the application is started or restart
 
 Signal Generator Application
 ============================
-
+See [app/sample_generator.js](./app/sample_generator.html).
 
 Emission BSON Specification
 ===========================
