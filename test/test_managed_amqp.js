@@ -57,7 +57,7 @@ module.exports = {
 			test.equal(me.managedAmqp.connected, true, ".connected should be true when ready is fired");
 
 			me.managedAmqp._exchange = { //Override the exchange with a mock one
-				publish: function(routingKey, message) { 
+				publish: function(routingKey, message, options) { 
 					test.equals(routingKey, rk, "Routing key");
 					test.equals(message, ms, "Message");
 					test.done();

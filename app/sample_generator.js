@@ -60,6 +60,7 @@ var sampleConfig = {
 				{
 					type: "timer",
 					operation: "validate_idm_token",
+					against: "app2",
 					frequency: function() {
 						return 1000 + Math.random() * 100; //Random, between 1 and 2 seconds
 					},
@@ -103,7 +104,7 @@ Application.prototype.run = function() {
 		} 
 		else if (emission.type == "timer") {
 			fun = function() {
-				me._sigint.time(emission.operation).duration(emission.duration()).emit();
+				me._sigint.time(emission.operation).against(emission.against).duration(emission.duration()).emit();
 			}
 		}
 

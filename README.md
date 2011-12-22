@@ -122,3 +122,11 @@ v0.0.2 - 12/21/2011 - Emission Spec v1
 
 	* Documented BSON emission spec
 	* Added spec version to BSON
+
+v0.0.3 - 12/21/2011 - Emission Spec v1
+
+	* Publishing to a headers exchange with the following headers:
+		* X-SIGINT-SRC (source app name)
+		* X-SIGINT-TRGT (target app name)
+		* X-SIGINT-OP (operation)
+		* X-SIGINT-TYPE (metric type)

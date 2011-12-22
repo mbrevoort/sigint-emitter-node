@@ -44,23 +44,23 @@ module.exports = {
 	},
 
 	"Flushes emissions buffer once connected": function(test) {
-		test.expect(4);
+		test.expect(7);
 
-		var msg1 = {t: "blah1"};
-		var msg2 = {t: "blah2"};
-		var msg3 = {t: "blah3"};
+		var msg1 = {t: "blah1", s: {a: "app"}};
+		var msg2 = {t: "blah2", s: {a: "app"}, o: "op1"};
+		var msg3 = {t: "blah3", s: {a: "app"}, g: "app2"};
 
 		var exchange = {};
 		exchange.published = [];
-		exchange.publish = function(rk, msg) {
-			exchange.published.push([rk, msg]);
+		exchange.publish = function(rk, msg, options) {
+			exchange.published.push([rk, msg, options]);
 		};
 
 		var ctrl = {};
 		var amqp = nodemock.mock("on").takes('ready', function(){}).ctrl(1, ctrl);
 		amqp.mock("on").takes('error', function(){});
 		amqp.mock("on").takes('close', function(){});
-		amqp.mock("exchange").takes("test_exchange", {type: 'fanout', durable: true}, function(){}).calls(2, [exchange]);
+		amqp.mock("exchange").takes("test_exchange", {type: 'headers', durable: true}, function(){}).calls(2, [exchange]);
 
 		var amqpFactory = nodemock.mock("createConnection").takes({host: 'localhost'}).returns(amqp);
 
@@ -77,6 +77,10 @@ module.exports = {
 		test.equals(exchange.published[1][0], msg2.t, "exchange.published[1]");
 		test.equals(exchange.published[2][0], msg3.t, "exchange.published[2]");
 
+		test.equals(exchange.published[0][2].headers['X-SIGINT-SRC'], msg1.s.a, "exchange.published[0] source header");
+		test.equals(exchange.published[1][2].headers['X-SIGINT-OP'], msg2.o, "exchange.published[1] operation header");
+		test.equals(exchange.published[2][2].headers['X-SIGINT-TRGT'], msg3.g, "exchange.published[2] target header");
+	
 		test.done();
 	}
 };

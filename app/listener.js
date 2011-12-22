@@ -23,7 +23,7 @@ var exchangeName = 'sigint';
 var connection = amqp.createConnection({ host: config.amqp.host });
 
 connection.on('ready', function () {
-	connection.exchange(exchangeName, {type: 'fanout', durable: true}, function(exchange) {
+	connection.exchange(exchangeName, {type: 'headers', durable: true}, function(exchange) {
 		util.log("Exchange created");
 
 		connection.queue(queueName, {durable: true}, function(queue) {
