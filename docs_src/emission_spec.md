@@ -20,6 +20,17 @@ BSON Data Structure
 * `w` is the numeric form of the number of milliseconds since the Unix epoch (1970-01-01T00:00.000Z)
 * `t` is the type of emission, an enumeration of "a" (announcement), "t" (timer), and "c" (counter)
 
+### Core Optional Properties ###
+	{
+		...
+		g: "myotherapp",
+		o: "login"
+		...
+	}
+
+* `g` is the name of the target application when counting or measuring a remote call against an upstream system
+* `o` is the arbitrary name of the operation being counted or measured
+
 ### Polymorphic Properties ###
 
 #### Announcement ####
@@ -77,6 +88,21 @@ BSON Data Structure
 * `d` is the polymorphic holder of data specific to the type of emission:
 	* value is an integer representing the number of milliseconds taken to perform the operation
 * `o` is an arbitrary property that specifies the type of operation being timed
+
+#### Timer - Upstream Call ###
+	{
+		s: {
+			n: "myapp01c",
+			a: "myapp"
+		},
+		w: 1234567890,
+		t: "t",
+		d: 100,
+		o: "validate_token",
+		g: "idm"
+	}
+
+...above is an example of the emission made when timing the "validate_token" operation against the IdM system.
 
 
 Guidelines For Emitter Libraries
