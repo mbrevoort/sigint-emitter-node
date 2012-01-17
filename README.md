@@ -8,7 +8,7 @@ Configuration
 		amqp: {
 			exchange: "sigint",
 			host: "localhost",
-			port: 5672				//Optional
+			port: 5672				//port is optional
 		},
 		node_name: "myapp01c",
 		app_name: "myapp"
@@ -18,11 +18,32 @@ Configuration
 
 * `maxQueueSize` determines the buffer size for emissions when in connected mode is enabled but the broker is currently unavailable.  When the max queue size is reached, any new emission will cause the earliest emission to be dropped.
 
-* `amqp` is passed directly into the amqp connection, plus the `exchange` name, which, is used for publishing messages.
+* `amqp` is passed directly into the amqp connection, plus the `exchange` name, which, is used for publishing messages.  If the value is an array, multiple amqp brokers can be chosen for random load-balanced publication into multiple brokers.
 
 * `node_name` represents the name of the machine where this application is running.
 
 * `app_name` represents the name of the application.
+
+An example of a config with multiple AMQP brokers:
+
+	{
+		style: "amqp" | "noop",
+		maxQueueSize: 1000
+		amqp: [						//amqp can be a single object or an array of
+			{
+				exchange: "sigint",
+				host: "amqp01",
+				port: 5672
+			},
+			{
+				exchange: "sigint",
+				host: "amqp02",
+				port: 5672
+			},
+		]
+		node_name: "myapp01c",
+		app_name: "myapp"
+	}
 
 Fluent API
 ==========
@@ -130,3 +151,7 @@ v0.0.3 - 12/21/2011 - Emission Spec v1
 		* X-SIGINT-TRGT (target app name)
 		* X-SIGINT-OP (operation)
 		* X-SIGINT-TYPE (metric type)
+
+v0.0.4 - 01/17/2011 - Emission Spec v1
+
+	* Publishing to multiple AMQP brokers
