@@ -4,6 +4,7 @@ Configuration
 =============
 	{
 		style: "amqp" | "noop",
+		format: "bson" | "json",
 		maxQueueSize: 1000			//Default 1000
 		amqp: {
 			exchange: "sigint",
@@ -14,7 +15,9 @@ Configuration
 		app_name: "myapp"
 	}
 
-*	`style` tells the library whether to run in connected or disconnected mode. Disconnected ("noop") mode means emissions are silently dropped.  Connected mode means emissions are published into the AMQP broker.
+* `style` tells the library whether to run in connected or disconnected mode. Disconnected ("noop") mode means emissions are silently dropped.  Connected mode means emissions are published into the AMQP broker.
+
+* `format` tells the library whether to send emissions in BSON or JSON format.  BSON is faster, JSON is more readable on the wire.
 
 * `maxQueueSize` determines the buffer size for emissions when in connected mode is enabled but the broker is currently unavailable.  When the max queue size is reached, any new emission will cause the earliest emission to be dropped.
 
@@ -152,6 +155,10 @@ v0.0.3 - 12/21/2011 - Emission Spec v1
 		* X-SIGINT-OP (operation)
 		* X-SIGINT-TYPE (metric type)
 
-v0.0.4 - 01/17/2011 - Emission Spec v1
+v0.0.4 - 01/17/2012 - Emission Spec v1
 
 	* Publishing to multiple AMQP brokers
+
+v0.0.5 - 01/25/2012 - Emission Spec v1
+	
+	* Config option to emit in either json or bson format

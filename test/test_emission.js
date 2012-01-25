@@ -44,7 +44,7 @@ module.exports = {
 	},
 
 	"Flushes emissions buffer once connected": function(test) {
-		test.expect(7);
+		test.expect(11);
 
 		var msg1 = {t: "blah1", s: {a: "app"}};
 		var msg2 = {t: "blah2", s: {a: "app"}, o: "op1"};
@@ -80,7 +80,60 @@ module.exports = {
 		test.equals(exchange.published[0][2].headers['X-SIGINT-SRC'], msg1.s.a, "exchange.published[0] source header");
 		test.equals(exchange.published[1][2].headers['X-SIGINT-OP'], msg2.o, "exchange.published[1] operation header");
 		test.equals(exchange.published[2][2].headers['X-SIGINT-TRGT'], msg3.g, "exchange.published[2] target header");
+
+		test.equals(typeof(exchange.published[0][1]),"object", "Payload type for exchange.published[0]");
 	
+		test.equals(exchange.published[0][2].contentType, "application/bson", "exchange.published[0] contentType");
+		test.equals(exchange.published[1][2].contentType, "application/bson", "exchange.published[1] contentType");
+		test.equals(exchange.published[2][2].contentType, "application/bson", "exchange.published[2] contentType");
+
+		test.done();
+	},
+
+	"Flushes emissions as JSON when configured to do so": function(test) {
+		test.expect(11);
+
+		var msg1 = {t: "blah1", s: {a: "app"}};
+		var msg2 = {t: "blah2", s: {a: "app"}, o: "op1"};
+		var msg3 = {t: "blah3", s: {a: "app"}, g: "app2"};
+
+		var exchange = {};
+		exchange.published = [];
+		exchange.publish = function(rk, msg, options) {
+			exchange.published.push([rk, msg, options]);
+		};
+
+		var ctrl = {};
+		var amqp = nodemock.mock("on").takes('ready', function(){}).ctrl(1, ctrl);
+		amqp.mock("on").takes('error', function(){});
+		amqp.mock("on").takes('close', function(){});
+		amqp.mock("exchange").takes("test_exchange", {type: 'headers', durable: true}, function(){}).calls(2, [exchange]);
+
+		var amqpFactory = nodemock.mock("createConnection").takes({host: 'localhost'}).returns(amqp);
+
+		var emission = new EmissionFactory({style: 'amqp', format: 'json', amqp: {exchange: "test_exchange", host: 'localhost'}}, amqpFactory);
+
+		emission._emit(msg1);
+		emission._emit(msg2);
+		emission._emit(msg3);
+
+		ctrl.trigger();
+
+		test.equals(exchange.published.length, 3, "exchange.publish() should have been called three times");
+		test.equals(exchange.published[0][0], msg1.t, "exchange.published[0]");
+		test.equals(exchange.published[1][0], msg2.t, "exchange.published[1]");
+		test.equals(exchange.published[2][0], msg3.t, "exchange.published[2]");
+
+		test.equals(typeof(exchange.published[0][1]),"string", "Payload type for exchange.published[0]");
+
+		test.equals(exchange.published[0][2].headers['X-SIGINT-SRC'], msg1.s.a, "exchange.published[0] source header");
+		test.equals(exchange.published[1][2].headers['X-SIGINT-OP'], msg2.o, "exchange.published[1] operation header");
+		test.equals(exchange.published[2][2].headers['X-SIGINT-TRGT'], msg3.g, "exchange.published[2] target header");
+	
+		test.equals(exchange.published[0][2].contentType, "application/json", "exchange.published[0] contentType");
+		test.equals(exchange.published[1][2].contentType, "application/json", "exchange.published[1] contentType");
+		test.equals(exchange.published[2][2].contentType, "application/json", "exchange.published[2] contentType");
+
 		test.done();
 	},
 

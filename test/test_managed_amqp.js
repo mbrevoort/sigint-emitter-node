@@ -48,7 +48,7 @@ module.exports = {
     },
 
     "Publish passes through": function(test) {
-		test.expect(4);
+		test.expect(5);
 		var me = this;
 		var rk = "blah";
 		var ms = "bloop";
@@ -60,10 +60,11 @@ module.exports = {
 				publish: function(routingKey, message, options) { 
 					test.equals(routingKey, rk, "Routing key");
 					test.equals(message, ms, "Message");
+					test.deepEqual(options, {headers: {me: true}, deliveryMode: 1, contentType: "text/plain"}, "options");
 					test.done();
 				}
 			};
-			me.managedAmqp.publish(rk, ms);
+			me.managedAmqp.publish(rk, ms, {me: true}, "text/plain");
 		});
 
 		test.equal(this.managedAmqp.isConnected(), false, ".connected should be false at first");
