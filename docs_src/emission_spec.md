@@ -104,6 +104,24 @@ BSON Data Structure
 
 ...above is an example of the emission made when timing the "validate_token" operation against the IdM system.
 
+#### Error ####
+	{
+		s: {
+			n: "myapp01c",
+			a: "myapp"
+		},
+		w: 1234567890,
+		t: "e",
+		d: {
+			msg: "something bad happened"
+			detail: {}
+		},
+		o: "login"
+	}
+
+* `d` is the polymorphic holder of data specific to the type of emission:
+	* value is an object with at least a `msg` property describing the error.  Any additional data can be tucked in the `detail` property as appropriate.
+
 
 Guidelines For Emitter Libraries
 --------------------------------

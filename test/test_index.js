@@ -152,5 +152,36 @@ module.exports = {
 		sigint.emission.assert();
 
 		test.done();
-	}
+	},
+
+	"error builds a proper message": function(test) {
+		var expected = {
+			v: 1,
+			s: {
+				n: "node1",
+				a: "app1"
+			},
+			w: "some date",
+			t: "e",
+			o: "operation1",
+			d: {msg: "something bad", detail: {bad: true}},
+			g: "app2"
+		};
+
+		var sigint = new SIGINT({style: "noop", node_name: "node1", app_name: "app1"}, null);
+
+		sigint.emission = nodemock.mock("_emit").takes(expected);
+
+		sigint.error("operation1")
+			.at("some date")
+			.against("app2")
+			.msg("something bad")
+			.detail({bad: true})
+			.emit();
+
+		sigint.emission.assert();
+
+		test.done();
+	},
+
 };

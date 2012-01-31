@@ -162,3 +162,7 @@ v0.0.4 - 01/17/2012 - Emission Spec v1
 v0.0.5 - 01/25/2012 - Emission Spec v1
 	
 	* Config option to emit in either json or bson format
+
+v0.0.6 - 01/31/2012 - Emission Spec v1
+	
+	* Added the error emission type
